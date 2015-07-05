@@ -9,3 +9,7 @@ exports.answer = function(req, res){
 		res.render('quizes/answer', { respuesta: 'Incorrecto'});
 	}
 };
+
+exports.credits = function(req, res){
+	res.render('author', { author: "Kelvin Rodriguez"});
+};
