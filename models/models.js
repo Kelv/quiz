@@ -3,7 +3,7 @@ var path = require('path');
 // Postgres DATABASE_URL = postgres://user:passwd@host:port/database
 // SQLite   DATABASE_URL = sqlite://:@:/
 
-var url = process.env.DATABASE_URL.match(/(.*)\:\/\/(.*?)\:(.*)@(.*)\:(.*)\/(.*)/);
+var url = process.env.DATABASE_URL.match(/(.*)\:\/\/(.*?)\:(.*)@(.*)\:(.*)\/(.*)/); 								
 var DB_name 	= (url[6] || null);
 var user 		= (url[2] || null);
 var pwd 		= (url[3] || null);
@@ -35,9 +35,12 @@ sequelize.sync().then(function(){
 	Quiz.count().success(function(count){
 		if(count === 0){
 			Quiz.create({pregunta: "Capital de Italia",
-						respuesta: "Roma"})
-			.success(function(){console.log("Base de datos inicializada.");});
-		}
+						respuesta: "Roma"});
+
+			Quiz.create({pregunta: "Capital de Portugal",
+						respuesta: "Lisboa"})
+			.then(function(){console.log("Base de datos inicializada.");});
+		}	
 	});
 });
 
