@@ -61,7 +61,7 @@ exports.create = function(req, res){
 		res.render('quizes/new', {quiz: quiz, errors: errs});
 	}else{
 		quiz
-		.save({fields: ["pregunta", "respuesta"]})
+		.save({fields: ["pregunta", "respuesta", "tema"]})
 		.then(function(){
 			res.redirect('/quizes');
 		});
@@ -77,6 +77,7 @@ exports.edit = function(req, res){
 exports.update = function(req, res){
 	req.quiz.pregunta = req.body.quiz.pregunta;
 	req.quiz.respuesta = req.body.quiz.respuesta;
+	req.quiz.tema = req.body.quiz.tema;
 
 	var quiz = req.quiz;
 
@@ -93,7 +94,7 @@ exports.update = function(req, res){
 		res.render('quizes/new', {quiz: quiz, errors: errs});
 	}else{
 		quiz
-		.save({fields: ["pregunta", "respuesta"]})
+		.save({fields: ["pregunta", "respuesta", "tema"]})
 		.then(function(){
 			res.redirect('/quizes');
 		});
@@ -107,5 +108,5 @@ exports.destroy = function(req, res){
 };
 
 exports.credits = function(req, res){
-	res.render('author', { author: "Kelvin Rodriguez"});
+	res.render('author', { author: "Kelvin Rodriguez", errors: []});
 };
