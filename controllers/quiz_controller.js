@@ -68,6 +68,38 @@ exports.create = function(req, res){
 	}	
 };
 
+exports.edit = function(req, res){
+	var quiz = req.quiz;
+
+	res.render('quizes/edit', {quiz: quiz, errors: []});
+};
+
+exports.update = function(req, res){
+	req.quiz.pregunta = req.body.quiz.pregunta;
+	req.quiz.respuesta = req.body.quiz.respuesta;
+
+	var quiz = req.quiz;
+
+	var errors = quiz.validate();
+	if (errors){
+		var errs = new Array();
+		console.log(errors);
+		var i = 0;
+		for (var err in errors) {
+			errs[i++] = {message: errors[err]};
+			console.log(errors[err]);
+		}
+		console.log(errs);
+		res.render('quizes/new', {quiz: quiz, errors: errs});
+	}else{
+		quiz
+		.save({fields: ["pregunta", "respuesta"]})
+		.then(function(){
+			res.redirect('/quizes');
+		});
+	}	
+};
+
 exports.credits = function(req, res){
 	res.render('author', { author: "Kelvin Rodriguez"});
 };
