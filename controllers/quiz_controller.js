@@ -1,7 +1,11 @@
 var models = require('../models/models.js');
 
 exports.load = function(req, res, next, quizId){
-	models.Quiz.find(quizId).then(
+	models.Quiz.find(
+		{
+			where: { id: Number(quizId)},
+			include: [{ model: models.Comment}]
+		}).then(
 		function(quiz){
 			if (quiz){
 				req.quiz = quiz;
@@ -51,13 +55,10 @@ exports.create = function(req, res){
 	var errors = quiz.validate();
 	if (errors){
 		var errs = new Array();
-		console.log(errors);
 		var i = 0;
 		for (var err in errors) {
 			errs[i++] = {message: errors[err]};
-			console.log(errors[err]);
 		}
-		console.log(errs);
 		res.render('quizes/new', {quiz: quiz, errors: errs});
 	}else{
 		quiz
@@ -84,13 +85,10 @@ exports.update = function(req, res){
 	var errors = quiz.validate();
 	if (errors){
 		var errs = new Array();
-		console.log(errors);
 		var i = 0;
 		for (var err in errors) {
 			errs[i++] = {message: errors[err]};
-			console.log(errors[err]);
 		}
-		console.log(errs);
 		res.render('quizes/new', {quiz: quiz, errors: errs});
 	}else{
 		quiz
