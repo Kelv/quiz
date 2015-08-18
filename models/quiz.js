@@ -1,3 +1,5 @@
+var models = require("../models/models.js");
+
 module.exports = function(sequelize, DataTypes){
 	return sequelize.define('Quiz',
 		{ pregunta: {
