@@ -30,6 +30,7 @@ exports.create = function(req, res){
 		}
 
 		req.session.user = { id:user.id, username: user.username};
+		req.session.time = Date.now();
 		res.redirect(req.session.redir.toString());
 	})
 };
@@ -38,3 +39,16 @@ exports.destroy = function(req, res){
 	delete req.session.user;
 	res.redirect(req.session.redir.toString());
 }
+
+exports.tw = function(req, res, next){
+	if (req.session.user){
+		var now = Date.now();
+		if ((now - req.session.time) > 120000){
+			delete req.session.user;
+			delete req.session.time;
+		}else{
+			req.session.time = now
+		}
+	}
+	next();
+};

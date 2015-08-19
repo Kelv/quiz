@@ -1,6 +1,7 @@
 var models = require('../models/models.js');
 
 exports.load = function(req, res, next, commentId){
+	// Precarga de comentarios
 	models.Comment.find({
 		where: {
 			id: Number(commentId)
@@ -16,10 +17,12 @@ exports.load = function(req, res, next, commentId){
 };
 
 exports.new = function(req, res){
+	// Renderizar formulario para nuevo comentario
 	res.render('comments/new.ejs', { quizid: req.params.quizId, errors: []});
 };
 
 exports.create = function(req, res){
+	// Crear nuevo comentario
 	var comment = models.Comment.build(
 		{ texto: req.body.comment.texto,
 			QuizId: req.params.quizId
@@ -41,8 +44,7 @@ exports.create = function(req, res){
 };
 
 exports.publish = function(req, res){
-console.log("entro");
-
+	// Publicar el comentario
 	req.comment.publicado = true;
 
 	req.comment.save({ fields: ["publicado"]})

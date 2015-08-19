@@ -1,6 +1,7 @@
 var models = require('../models/models.js');
 
 exports.load = function(req, res, next, quizId){
+	// Precarga de las preguntas
 	models.Quiz.find(
 		{
 			where: { id: Number(quizId)},
@@ -16,6 +17,7 @@ exports.load = function(req, res, next, quizId){
 };
 
 exports.index = function(req, res){ 
+	// Ir al indice de preguntas
 	var search = (req.query.search || "");
 	search = "%" + search + "%";
 	search = search.replace(/ /g, '%');
@@ -25,12 +27,14 @@ exports.index = function(req, res){
 };
 
 exports.show = function(req, res){
+	// Contestar la pregunta
 	models.Quiz.find(req.params.quizId).then(function(quiz){
 		res.render('quizes/show', { quiz: req.quiz, errors: []});
 	});
 };
 
 exports.answer = function(req, res){
+	// Envio de respuesta
 	models.Quiz.find(req.params.quizId).then(function(quiz){
 		var resultado = 'Incorrecto';
 		if (req.query.respuesta === req.quiz.respuesta){
@@ -42,6 +46,7 @@ exports.answer = function(req, res){
 };
 
 exports.new = function(req, res){
+	// Cargar formulario para nueva pregunta
 	var quiz = models.Quiz.build(
 		{ pregunta: "Pregunta", respuesta: "Respuesta"}
 		);
@@ -50,6 +55,7 @@ exports.new = function(req, res){
 };
 
 exports.create = function(req, res){
+	// Crear nueva pregunta
 	var quiz = models.Quiz.build( req.body.quiz);
 
 	var errors = quiz.validate();
@@ -70,12 +76,14 @@ exports.create = function(req, res){
 };
 
 exports.edit = function(req, res){
+	// Editar la pregunta
 	var quiz = req.quiz;
 
 	res.render('quizes/edit', {quiz: quiz, errors: []});
 };
 
 exports.update = function(req, res){
+	// Actualizar pregunta y respuesta
 	req.quiz.pregunta = req.body.quiz.pregunta;
 	req.quiz.respuesta = req.body.quiz.respuesta;
 	req.quiz.tema = req.body.quiz.tema;
@@ -100,11 +108,13 @@ exports.update = function(req, res){
 };
 
 exports.destroy = function(req, res){
+	// Eliminar pregunta
 	req.quiz.destroy().then(function(){
 		res.redirect('/quizes');
 	}).catch(function(error){next(error)});
 };
 
 exports.credits = function(req, res){
+	// Creditos
 	res.render('author', { author: "Kelvin Rodriguez", errors: []});
 };

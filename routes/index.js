@@ -16,6 +16,7 @@ router.get('/login',  sessionController.new);
 router.post('/login', sessionController.create);
 router.get('/logout',  sessionController.destroy);
 
+router.get(/\//, sessionController.tw);
 
 router.get('/quizes',						quizController.index);
 router.get('/quizes/:quizId(\\d+)',			quizController.show);
