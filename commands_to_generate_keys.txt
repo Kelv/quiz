@@ -1,0 +1,5 @@
+mkdir cert
+cd cert
+C:/openssl/bin/openssl.exe genrsa -out quizk-2015-key.pem 2048
+C:/openssl/bin/openssl.exe req -new -sha256 -key quizk-2015-key.pem -out quizk-2015-csr.pem
+C:/openssl/bin/openssl.exe x509 -req -in quizk-2015-csr.pem -signkey quizk-2015-key.pem -out quizk-2015-cert.pem
